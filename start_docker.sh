@@ -3,6 +3,7 @@ export DATA=/media/dh/HDD
 xhost +local:docker
 docker run -it \
 --env-file docker.env \
+-v $PWD:/persdet \
 -v $DATA:$DATA \
  levan92/persdet2
 

@@ -146,24 +146,28 @@ def main(args):
     return trainer.train()
 
 if __name__ == "__main__":
+    import os
     from pathlib import Path
     from detectron2.data.datasets import register_coco_instances
     
-    dataset_image_root = '/media/dh/HDD/pp/pp_modir/images'
-    train_json = '/media/dh/HDD/pp/pp_modir/pp_train.json'
-    train_dataset_name = 'pp_modir_train'
-    val_json = '/media/dh/HDD/pp/pp_modir/pp_val.json'
-    val_dataset_name = 'pp_modir_val'
+    dataset_name = os.environ.get('DATASET_NAME')
+    assert dataset_name is not None,'DATASET_NAME must be given'
+    dataset_dir = Path(dataset_name)
+    dataset_image_root = dataset_dir / 'images'
+    train_json = dataset_dir / 'train.json'
+    train_dataset_name = f'{dataset_name}_train'
+    val_json = dataset_dir / 'val.json'
+    val_dataset_name = f'{dataset_name}_val'
+    test_json = dataset_dir / 'test.json'
+    test_dataset_name = f'{dataset_name}_test'
     assert Path(dataset_image_root).is_dir()
     assert Path(train_json).is_file()
     assert Path(val_json).is_file()
+    assert Path(test_json).is_file()
     register_coco_instances(train_dataset_name, {}, train_json, dataset_image_root)
     register_coco_instances(val_dataset_name, {}, val_json, dataset_image_root)
+    register_coco_instances(test_dataset_name, {}, test_json, dataset_image_root)
 
-    val_cococats_json = '/media/dh/HDD/pp/pp_modir/pp_val_cococats.json'
-    val_cococats_dataset_name = 'pp_modir_val_cococats'
-    register_coco_instances(val_cococats_dataset_name, {}, val_cococats_json, dataset_image_root)
-    
     args = default_argument_parser().parse_args()
     print("Command Line Args:", args)
     launch(

@@ -33,7 +33,11 @@ spec:
         - name: OUT_DIR
           value: output
         - name: MODEL_WEIGHTS
-          value: weights/faster_rcnn_R_50_FPN_3x/model_final_280758_anchor-removed.pkl
+          value: weights/faster_rcnn_R_50_FPN_3x/model_final_280758.pkl
+        - name: DATASETS_TRAIN
+          value: ("ECP_day_train",)
+        - name: DATASETS_TEST
+          value: ("ECP_day_val",)
       resources:
         requests:
           cpu: "6"
