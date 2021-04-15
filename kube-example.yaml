@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: persdet-det2
+spec:
+  containers:
+    - name: persdet2_cont
+      image: "persdet2:latest"
+      imagePullPolicy: IfNotPresent
+      stdin: true
+      tty: true
+      env: 
+        - name: S3_ALIAS_NAME
+          value: myminio
+        - name: S3_ENDPOINT_URL
+          value: http://123.123.123.123:5555
+        - name: AWS_ACCESS_KEY_ID
+          value: user
+        - name: AWS_SECRET_ACCESS_KEY
+          value: password
+        - name: SIGNATURE_VERSION
+          value: s3v4
+        
+        - name: BUCKETPATH
+          value: "datasets/cv-data/person"
+        - name: DATASET_NAME
+          value: ECP_day
+        
+        - name: CONFIG
+          value: configs/persdet/persdet_rcnn_R_50_FPN_ECP_day.yaml
+        - name: NUM_GPU
+          value: 1
+        - name: OUT_DIR
+          value: output
+        - name: MODEL_WEIGHTS
+          value: weights/faster_rcnn_R_50_FPN_3x/model_final_280758_anchor-removed.pkl
+      resources:
+        requests:
+          cpu: "6"
+          memory: "2Gi"
+      command: ["/bin/bash","-c"]
+      args: ["run.sh"]
+  restartPolicy: Never
