@@ -40,8 +40,8 @@ from detectron2.modeling import GeneralizedRCNNWithTTA
 from detectron2.data import build_detection_train_loader, build_detection_test_loader
 
 from data import AugDatasetMapper
-from models import resnet_IN_fpn
-from config import add_IN_config
+# from models import resnet_IN_fpn
+# from config import add_IN_config
 
 class Trainer(DefaultTrainer):
     """
@@ -117,7 +117,7 @@ def setup(args):
     Create configs and perform basic setups.
     """
     cfg = get_cfg()
-    add_IN_config(cfg)
+    # add_IN_config(cfg)
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.freeze()
