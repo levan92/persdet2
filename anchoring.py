@@ -1,6 +1,7 @@
 import json
 import argparse
 from collections import defaultdict
+from warnings import warn
 
 import numpy as np
 from statistics import median
@@ -18,9 +19,12 @@ def get_info_from_coco(coco_dict, include_crowdedness=False):
             img_id = annot['image_id']
             counts[img_id] += 1
         l,t,w,h = annot['bbox']
-        ar = h/w #anchor aspect ratios are height/width
+        if w > 0:
+            ar = h/w #anchor aspect ratios are height/width
+            ars.append(ar)
+        else:
+            warn('This bb has 0 width!')
         size = ( w * h ) ** 0.5
-        ars.append(ar)
         sizes.append(size)
     if include_crowdedness:
         crowdedness = list(counts.values())
