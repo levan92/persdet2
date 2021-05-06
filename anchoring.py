@@ -7,6 +7,7 @@ import numpy as np
 from statistics import median
 from scipy.stats import describe 
 from sklearn.cluster import KMeans 
+from tqdm import tqdm 
 
 def get_info_from_coco(coco_dict, include_crowdedness=False):
     # if include_crowdedness, you need to make sure no overlapping image_ids if 'images' are merged
@@ -14,7 +15,7 @@ def get_info_from_coco(coco_dict, include_crowdedness=False):
         counts = defaultdict(int)
     sizes = []
     ars = []
-    for annot in coco_dict['annotations']:
+    for annot in tqdm(coco_dict['annotations']):
         if include_crowdedness:
             img_id = annot['image_id']
             counts[img_id] += 1
@@ -63,7 +64,7 @@ def process(coco_dict, include_crowdedness):
 
 def load_coco_jsons(json_list):
     all_coco_dict = {'images':[], 'annotations':[]}
-    for p in json_list:
+    for p in tqdm(json_list):
         with open(p, 'r') as f:
             coco_dict = json.load(f)
             all_coco_dict['images'].extend(coco_dict['images'])
