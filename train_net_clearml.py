@@ -101,6 +101,32 @@ parser.add_argument(
     help="SOLVER.CHECKPOINT_PERIOD"
 )
 parser.add_argument(
+    "--anchor-sizes",
+    help="MODEL.ANCHOR_GENERATOR.SIZES, default: [[32], [64], [128], [256], [512]]"
+)
+parser.add_argument(
+    "--anchor-aspect-ratios",
+    help="MODEL.ANCHOR_GENERATOR.ASPECT_RATIOS, default: [[0.5, 1.0, 2.0]]"
+)
+parser.add_argument(
+    "--min-size-train",
+    help="INPUT.MIN_SIZE_TRAIN, default: (640, 672, 704, 736, 768, 800)"
+)
+parser.add_argument(
+    "--max-size-train",
+    help="INPUT.MAX_SIZE_TRAIN, default: 1333"
+)
+parser.add_argument(
+    "--min-size-test",
+    help="INPUT.MIN_SIZE_TEST, default: 800"
+)
+parser.add_argument(
+    "--max-size-test",
+    help="INPUT.MAX_SIZE_TEST, default: 1333"
+)
+
+
+parser.add_argument(
     "opts",
     help="Modify config options by adding 'KEY VALUE' pairs at the end of the command. "
     "See config references at "
@@ -224,6 +250,12 @@ extend_opts(args.opts, 'SOLVER.WARMUP_ITERS', args.solver_warmup_iters)
 extend_opts(args.opts, 'SOLVER.STEPS', args.solver_steps)
 extend_opts(args.opts, 'SOLVER.MAX_ITER', args.solver_max_iter)
 extend_opts(args.opts, 'SOLVER.CHECKPOINT_PERIOD', args.solver_checkpoint_period)
+extend_opts(args.opts, 'MODEL.ANCHOR_GENERATOR.SIZES', args.anchor_sizes)
+extend_opts(args.opts, 'MODEL.ANCHOR_GENERATOR.ASPECT_RATIOS', args.anchor_aspect_ratios)
+extend_opts(args.opts, 'INPUT.MIN_SIZE_TRAIN', args.min_size_train)
+extend_opts(args.opts, 'INPUT.MAX_SIZE_TRAIN', args.max_size_train)
+extend_opts(args.opts, 'INPUT.MIN_SIZE_TEST', args.min_size_test)
+extend_opts(args.opts, 'INPUT.MAX_SIZE_TEST', args.max_size_test)
 
 launch(
     main,
