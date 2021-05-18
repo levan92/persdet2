@@ -104,15 +104,17 @@ class Trainer(DefaultTrainer):
             return evaluator_list[0]
         return DatasetEvaluators(evaluator_list)
 
-def setup(args):
+def setup(args, freeze=True):
     """
     Create configs and perform basic setups.
     """
     cfg = get_cfg()
     add_IN_config(cfg)
     cfg.merge_from_file(args.config_file)
-    cfg.merge_from_list(args.opts)
-    cfg.freeze()
+    if hasattr(args, 'opts') and args.opts is not None:
+        cfg.merge_from_list(args.opts)
+    if freeze:
+        cfg.freeze()
     default_setup(cfg, args)
     return cfg
 
